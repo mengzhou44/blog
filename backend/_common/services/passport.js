@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 
 const User = mongoose.model('User');
 
-console.log('process.env.GOOGLE_CLIENT_ID', process.env.GOOGLE_CLIENT_ID);
 
 passport.serializeUser((user, done) => {
   done(null, user.id);

@@ -10,7 +10,7 @@ require('./models/User');
 require('./models/Blog');
 
 require('./_common/services/passport');
-require('./_common/services/cache');
+
 
 
 mongoose.Promise = global.Promise;
