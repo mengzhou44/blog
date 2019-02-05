@@ -1,42 +1,27 @@
-const mongoose = require('mongoose');
 
 const requireLogin = require('../_common/middlewares/require-login');
 
-const Blog = mongoose.model('Blog');
+const Blog = require('../business/Blog');
 
 module.exports = app => {
-  app.get('/api/blogs/:id', requireLogin, async (req, res) => {
-    const blog = await Blog.findOne({
-      _user: req.user.id,
-      _id: req.params.id
-    });
-
+  app.get('/api/blogs/:id', requireLogin, (req, res) => {
+    const blog = Blog.findById(req.params.id);
     res.send(blog);
   });
 
   app.get('/api/blogs', requireLogin, async (req, res) => {
-
-    const blogs = await Blog.find({ _user: req.user.id });
+    const blogs = Blog.findAllByUser(req.user.id);
     res.send(blogs);
-
   });
 
   app.post('/api/blogs', requireLogin, async (req, res) => {
-    const { title, content, imageUrl } = req.body;
-
-    const blog = new Blog({
-      title,
-      content,
-      imageUrl,
-      _user: req.user.id
-    });
+    const { title, content, imagePath } = req.body;
 
     try {
-      await blog.save();
+      const blog = Blog.add({ title, content, imagePath, userId: req.user.id })
       res.send(blog);
     } catch (err) {
       res.send(400, err);
     }
-
   });
 };

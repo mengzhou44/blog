@@ -8,7 +8,7 @@ import * as actions from '../../actions';
 
 class BlogFormReview extends Component {
 
-  staate = {
+  state = {
     file: ''
   }
 

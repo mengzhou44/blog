@@ -1,20 +1,11 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 
 require('dotenv').config();
-
-require('./models/User');
-require('./models/Blog');
-
 require('./_common/services/passport');
 
-
-
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGO_URI, { useMongoClient: true });
 
 const app = express();
 

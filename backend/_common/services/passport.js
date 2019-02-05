@@ -1,19 +1,17 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const mongoose = require('mongoose');
 
-const User = mongoose.model('User');
-
+const User = require('../../business/User');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-  User.findById(id).then(user => {
-    done(null, user);
-  });
+  const user = User.findById(id);
+  done(null, user);
 });
+
 
 passport.use(
   new GoogleStrategy(
@@ -26,14 +24,15 @@ passport.use(
 
     async (accessToken, refreshToken, profile, done) => {
       try {
-        const existingUser = await User.findOne({ googleId: profile.id });
+        const existingUser = User.findByGoogleId(profile.id);
         if (existingUser) {
           return done(null, existingUser);
         }
-        const user = await new User({
+        const user = User.add({
           googleId: profile.id,
           displayName: profile.displayName
-        }).save();
+        });
+
         done(null, user);
       } catch (err) {
         done(err, null);
