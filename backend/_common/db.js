@@ -14,7 +14,7 @@ async function execute(query) {
     const client = await pool.connect();
     try {
         const res = await client.query(query);
-        return res.rows;
+        return res.rows[0];
 
     } catch (error) {
         throw error;

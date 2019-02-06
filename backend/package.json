@@ -20,7 +20,7 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "backend": "nodemon index.js",
+    "backend": "node index.js",
     "web": "npm run start --prefix  ../web",
     "dev": "concurrently \"npm run backend\"  \"npm run web\""
   }
